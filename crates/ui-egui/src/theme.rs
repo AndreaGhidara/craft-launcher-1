@@ -239,6 +239,31 @@ pub const HUD_SPACING: f32 = HUD_SIZE * 0.15;
 /// Buttons: 11 px Geist Mono 700, upper case, 0.12 em apart.
 pub const BUTTON_SPACING: f32 = HUD_SIZE * 0.12;
 
+// ---- layout ------------------------------------------------------------------------------------
+// The app page and the large dialogs (Settings, release notes) share these, so they read as one
+// family; the toolbar and the footer use the same steps.
+
+/// Padding inside the app page and the dialogs, round their headers, bodies and footers.
+pub const PAD: f32 = 24.0;
+/// The gap between the two columns of a page or dialog.
+pub const COLUMN_GAP: f32 = 32.0;
+/// Padding inside a hairline box: a group of settings, a feature, a release fact.
+pub const BOX_MARGIN: egui::Margin = egui::Margin::symmetric(14, 12);
+/// Below this width the toolbar moves the sort and "Update all" to a second row.
+pub const TOOLBAR_COMPACT_BELOW: f32 = 640.0;
+/// From this width the large dialogs read in two columns.
+pub const DIALOG_COLUMNS_FROM: f32 = 760.0;
+/// From this width the app page reads in two columns (its pictures need the room).
+pub const PAGE_COLUMNS_FROM: f32 = 900.0;
+/// Title sizes, largest first: an app page's name, a large dialog's title, a small prompt's title.
+pub const PAGE_TITLE: f32 = 32.0;
+pub const SHEET_TITLE: f32 = 26.0;
+pub const DIALOG_TITLE: f32 = 22.0;
+/// A row of icon links (the footer, Settings): the room round each logo, and the gap between their
+/// targets; neighbours' logos sit `2 × ICON_LINK_PAD + ICON_LINK_GAP` apart.
+pub const ICON_LINK_PAD: f32 = 6.0;
+pub const ICON_LINK_GAP: f32 = 2.0;
+
 /// Inter 500.
 pub fn medium() -> FontFamily {
     FontFamily::Name("medium".into())
@@ -287,7 +312,9 @@ pub fn install_fonts(ctx: &egui::Context, cjk: Option<Lang>) {
         ("GeistMono-Bold", GEIST_MONO, &[(*b"wght", 700.0)], mono_bold()),
     ];
     for (name, bytes, coords, family) in faces {
-        let tweak = FontTweak { coords: VariationCoords::new(coords.iter().copied()), ..Default::default() };
+        // No subpixel binning: these fonts carry no hinting instructions, so a glyph drawn at a
+        // fractional x smears each stem across two pixels, leaving small text blurry at 100 %.
+        let tweak = FontTweak { coords: VariationCoords::new(coords.iter().copied()), subpixel_binning: Some(false), ..Default::default() };
         fonts.font_data.insert(name.to_owned(), Arc::new(FontData::from_static(bytes).tweak(tweak)));
         let mut stack = vec![name.to_owned()];
         stack.extend(fallback.iter().cloned());

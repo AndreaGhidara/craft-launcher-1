@@ -113,7 +113,7 @@ fn italian_ui_translates_labels_dates_and_messages() {
     h.run_steps(8);
     snapshot(&mut h, "grid-it-dark");
     // Product names stay in English.
-    h.get_by_label("Launcher");
+    assert!(h.query_by_label("Launcher").is_none());
     h.get_by_label("Craft App Suite");
     h.get_by_label("Modifica di immagini");
     h.get_by_label("Aggiorna a 0.5.0");
@@ -124,6 +124,6 @@ fn italian_ui_translates_labels_dates_and_messages() {
     let mut table = harness(ViewMode::Table);
     table.run_steps(8);
     snapshot(&mut table, "table-it-dark");
-    table.get_by_label("Installata");
+    table.get_by_label("Versione");
     assert!(table.query_all_by_label_contains("ago 2026").count() >= 1);
 }

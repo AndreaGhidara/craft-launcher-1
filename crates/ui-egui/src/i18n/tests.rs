@@ -352,6 +352,15 @@ fn italian_locales_and_plurals_work() {
     assert_eq!(super::tr_ctx(Lang::IT, "month", "Aug"), "ago");
     assert_eq!(tr(Lang::IT, "{month} {day}, {year}"), "{day} {month} {year}");
     assert_eq!(message(Lang::IT, "PhotoCraft updated to 0.5.0"), "PhotoCraft aggiornata a 0.5.0");
+    // The launcher's own reasons are translated whole; an OS error keeps its text after the colon.
+    assert_eq!(
+        message(Lang::IT, "couldn't use install folder apps: choose an absolute path"),
+        "impossibile usare la cartella di installazione apps: indica un percorso assoluto"
+    );
+    assert_eq!(
+        message(Lang::IT, "couldn't use install folder /Volumes/Disk: Permission denied (os error 13)"),
+        "impossibile usare la cartella di installazione /Volumes/Disk: Permission denied (os error 13)"
+    );
 }
 
 #[test]

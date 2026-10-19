@@ -15,10 +15,10 @@
 # Left in English on purpose: product name "ArtCraft Launcher" (and its "Launcher" tag), suite
 # name "Craft App Suite", app names (PhotoCraft, LightCraft, FilmCraft,
 # DesignCraft, VectorCraft, PdfCraft, EffectCraft, WordCraft, DeckCraft, GridCraft, CADCraft,
-# SoundCraft), "GitHub", "Discord", "Finder", "maker".
+# SoundCraft, FigCraft), "GitHub", "Discord", "Finder", "maker".
 # Trailing "…" (U+2026) must be preserved. Placeholders must appear in the translation:
-# {ago}, {a}, {b}, {count}, {date}, {day}, {done}, {e}, {f}, {installed}, {latest}, {min},
-# {month}, {name}, {n}, {os}, {platform}, {sources}, {total}, {version}, {v}, {year}.
+# {ago}, {a}, {b}, {cmd}, {count}, {date}, {day}, {done}, {e}, {f}, {installed}, {latest}, {min},
+# {month}, {name}, {n}, {os}, {path}, {pkg}, {platform}, {reason}, {repo}, {sources}, {total}, {version}, {v}, {year}.
 
 	Launcher	Launcher
 	Craft App Suite	Craft App Suite
@@ -45,7 +45,6 @@
 	Website	Sito web
 	Classic apps	App classiche
 	New apps	Nuove app
-	Classic	Classica
 	NEW	NUOVA
 	Install	Installa
 	Update to {v}	Aggiorna a {v}
@@ -90,6 +89,7 @@
 	Notify me when an installed app has an update	Avvisami quando un'app installata ha un aggiornamento
 	Include pre-releases (betas and release candidates)	Includi le pre-release (beta e release candidate)
 	Installing on Linux	Installazione su Linux
+	Installing on Windows	Installazione su Windows
 	Install new apps as	Installa le nuove app come
 	System package (recommended)	Pacchetto di sistema (consigliato)
 	Updates always use the format an app was installed with.	Gli aggiornamenti usano sempre il formato con cui l'app è stata installata.
@@ -152,6 +152,7 @@
 	Disk image (.dmg)	Immagine disco (.dmg)
 	Debian package (.deb)	Pacchetto Debian (.deb)
 	RPM package (.rpm)	Pacchetto RPM (.rpm)
+	Arch package (.pkg.tar.zst)	Pacchetto Arch (.pkg.tar.zst)
 	Flatpak bundle	Flatpak Bundle
 	Tarball (.tar.gz)	Tarball (.tar.gz)
 photocraft	Image editing	Modifica di immagini
@@ -166,6 +167,7 @@ deckcraft	Presentations and slide shows	Presentazioni e slideshow
 gridcraft	Spreadsheets and data	Fogli di calcolo e dati
 cadcraft	Computer-aided design and drafting	Progettazione CAD e disegno tecnico
 soundcraft	Recording, editing and mixing audio	Registrazione, editing e mixaggio audio
+figcraft	Interface design and prototyping	Design di interfacce e prototipazione
 month	Jan	gen
 month	Feb	feb
 month	Mar	mar
@@ -248,6 +250,7 @@ column	App	App
 column	Installed	Installata
 column	Latest	Ultima
 column	Released	Pubblicata
+column	Version	Versione
 filter	Installed	Installate
 	App details	Dettagli app
 	Close (Esc)	Chiudi (Esc)
@@ -275,6 +278,10 @@ filter	Installed	Installate
 @msg	{name} installed: {version} (this release publishes no checksum, so only its size was checked)	{name} installata: {version} (questa versione non pubblica un checksum, quindi è stata verificata solo la dimensione)
 @msg	{name} was removed	{name} è stata rimossa
 @msg	{name} is running. Quit it, then try again.	{name} è in esecuzione. Esci dall'app e riprova.
+@msg	{name} was installed from the {repo} repository or the AUR ({pkg}). Update it with {cmd} or sudo pacman -Syu	{name} è stata installata dal repository {repo} o dall'AUR ({pkg}). Per aggiornarla usa {cmd} o sudo pacman -Syu
+@msg	{name} was installed from the {repo} repository or the AUR ({pkg}). Update it with your AUR helper (for example: yay -S {pkg}) or sudo pacman -Syu	{name} è stata installata dal repository {repo} o dall'AUR ({pkg}). Per aggiornarla usa un AUR helper (ad esempio: yay -S {pkg}) o sudo pacman -Syu
+@msg	{name} was installed from the AUR ({pkg}). Update it with {cmd}	{name} è stata installata dall'AUR ({pkg}). Per aggiornarla usa {cmd}
+@msg	{name} was installed from the AUR ({pkg}). Update it with your AUR helper (for example: yay -S {pkg})	{name} è stata installata dall'AUR ({pkg}). Per aggiornarla usa un AUR helper (ad esempio: yay -S {pkg})
 @id	app.install	Installa
 @id	app.update	Aggiorna a {v}
 @id	app.open	Apri
@@ -322,3 +329,35 @@ filter	Installed	Installate
 	ArtCraft on GitHub	ArtCraft su GitHub
 	Join the ArtCraft Discord	Entra nel Discord di ArtCraft
 @plural	ArtCraft Launcher · {n} update available|ArtCraft Launcher · {n} updates available	ArtCraft Launcher · {n} aggiornamento disponibile|ArtCraft Launcher · {n} aggiornamenti disponibili
+
+# Install folder (Settings, and the per-app install-folder sheet)
+	Install folder	Cartella di installazione
+	Default install folder	Cartella di installazione predefinita
+	System default	Predefinita di sistema
+	Browse…	Sfoglia…
+	Use default	Usa predefinita
+	New installs use this folder. Updates stay in their current location.	Le nuove installazioni usano questa cartella. Gli aggiornamenti restano nella posizione attuale.
+	Custom folders use AppImage on Linux.	Su Linux le cartelle personalizzate usano AppImage.
+	The system manages install locations here.	Le posizioni di installazione sono gestite dal sistema.
+@msg	couldn't use install folder {path}: {reason}	impossibile usare la cartella di installazione {path}: {reason}
+@msg	couldn't use install folder {path}: the path contains invalid characters	impossibile usare la cartella di installazione {path}: il percorso contiene caratteri non validi
+@msg	couldn't use install folder {path}: choose an absolute path	impossibile usare la cartella di installazione {path}: indica un percorso assoluto
+@msg	couldn't use install folder {path}: the folder is unavailable. Create it or reconnect its drive first	impossibile usare la cartella di installazione {path}: la cartella non è disponibile. Creala o ricollega prima il disco
+@msg	this release has no AppImage for a custom install folder	questa versione non include un AppImage per una cartella di installazione personalizzata
+@msg	custom install folders aren't supported on this system	le cartelle di installazione personalizzate non sono supportate su questo sistema
+@msg	{path} already exists and wasn't installed by ArtCraft Launcher	{path} esiste già e non è stato installato da ArtCraft Launcher
+@msg	couldn't move {path} to Trash ({reason}). Remove it in Finder instead.	impossibile spostare {path} nel Cestino ({reason}). Rimuovilo manualmente dal Finder.
+	Apps are placed inside this folder.	Le app vengono installate all'interno di questa cartella.
+	Replace what's there?	Sostituire l'elemento esistente?
+	{path} already exists. Installing {name} will overwrite it.	{path} esiste già. L'installazione di {name} lo sovrascriverà.
+	Replace	Sostituisci
+
+# Grid sort, app details stepping, release notes, card footer
+	Recently updated	Aggiornate di recente
+	Name (A–Z)	Nome (A–Z)
+	Name (Z–A)	Nome (Z–A)
+	Frequently used	Usate più spesso
+	Next app	App successiva
+	Previous app	App precedente
+	Show {n} more changes	Mostra altre {n} modifiche
+	Last updated: {date}	Ultimo aggiornamento: {date}
